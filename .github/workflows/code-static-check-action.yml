@@ -42,5 +42,7 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install service deps
+        run: yarn
       - name: Run build project
         run: yarn run build
