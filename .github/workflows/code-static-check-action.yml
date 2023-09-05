@@ -1,0 +1,29 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is pushing a new commit 🚀
+on: [push]
+jobs:
+  Code-Static-Check-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🚧 Code static verification on branch ${{ github.ref }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Installing the node engine.
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install service deps
+        run: yarn
+
+      - name: Check Prettier format
+        run: yarn run format -c
+
+      - name: Check ESLint
+        run: yarn run eslint "{src,apps,libs,test}/**/*.ts" --fix-dry-run
+
+      - name: Run test
+        run: yarn run test
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
