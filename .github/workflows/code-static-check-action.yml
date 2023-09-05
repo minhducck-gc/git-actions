@@ -2,10 +2,10 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is pushing a new commit 🚀
 on: [push]
 jobs:
-  Code-Static-Check-Action:
+  Static-Code-Check:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🚧 Code static verification on branch ${{ github.ref }}."
+      - run: echo "🚨 Code static verification on branch ${{ github.ref }}."
       - name: Check out repository code
         uses: actions/checkout@v3
 
@@ -27,3 +27,20 @@ jobs:
         run: yarn run test
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  Build-Source-Code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "🚧 build source code on branch ${{ github.ref }}."
+
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Installing the node engine.
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Run build project
+        run: yarn run build
